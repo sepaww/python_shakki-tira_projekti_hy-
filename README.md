@@ -14,3 +14,5 @@
  
  ## tunti kirjanpito
  [tässä](https://github.com/sepaww/tira_projekti/blob/main/dokumentaatio/kirjanpito.md)
+
+huom projektista puuttuu vielä yksikkö testaus mutta shakkipelin funktiot tulevat vielä muuttumaan optimoinnissa joten en vielä tee testejä
