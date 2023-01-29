@@ -39,6 +39,8 @@ class Tile():
         self.type=typelist[id]
 class Game_Engine():
     def __init__(self):
+        """Init the needed values for starting the game
+        """
         self.game_size=800
         self.table_size=8
         self.starter=0
@@ -58,6 +60,8 @@ class Game_Engine():
         self.Renderer=rend(self.table_size, self.tilesize, self.game_matrix, self.curr_player)
         self.update()
     def init_game_matrix(self):
+        """places the standard starting board on game_matrix
+        """
         #0=none
         #1=pawn
         #2=bishop
@@ -80,21 +84,35 @@ class Game_Engine():
         self.game_matrix.append([Tile(4, 0, self.type_list), Tile(3, 0, self.type_list), Tile(2, 0, self.type_list), Tile(5, 0, self.type_list), Tile(6, 0, self.type_list), Tile(2, 0, self.type_list), Tile(3, 0, self.type_list),Tile(4, 0, self.type_list)])
     
     def init_king_track(self):
+        """initiates the needed info for tracking the kings
+        """
         #if self.starter==1:
         self.king_spots=[(7, 4), (0,4)]
         #else:
             #self.king_spots=[(0, 4), (7,4)]
     
     def update_king_track(self, tile, i, j):
+        """updates the position of king as it is moved
+
+        Args:
+            tile (Tile()): the king piece
+            i (int): y-axis position
+            j (int): x-axis position
+        """
         ind=tile.team
         self.king_spots[ind]=(i,j)
        
     def update(self):
+        """update function that contains the main loop running the game
+        """
         while self.running:
             self.Renderer.clock.tick(20)
             self.input_handler()
             self.Renderer.update_screen()
     def input_handler(self):
+        """the parent function for handling unit movement. takes info from input_handler and based on whether currently trying to
+        move or not will call for find_moves or move_maker
+        """
         info=self.Renderer.input_handler.current_input()
         if info!=None:
             if (info[1], info[0]) in self.current_move_list:
@@ -115,6 +133,14 @@ class Game_Engine():
                         self.move_handler(self.game_matrix[info[1]][info[0]], move_list, info[1], info[0])
 
     def move_handler(self, mover_tile, move_list, i, j):
+        """aims to remove all illegal moves from possible moves
+
+        Args:
+            mover_tile (Tile()): the piece to be moved
+            move_list (list): the possible moves
+            i (int): y-axis position
+            j (int): x-axis position
+        """
         print("nyt", move_list)
         move_list=self.own_check(mover_tile, move_list, i, j)
         print("jalk", move_list)
@@ -126,6 +152,8 @@ class Game_Engine():
             self.Renderer.draw_possible_moves(move)  
 
     def pawn_to_queen(self):
+        """turns a pawn to a queen as it reaches the enemy backline
+        """
         if self.current_move[0].team==1 and self.current_move[1]==6:
             print(self.current_move)
             self.current_move[0].type=Queen()   
@@ -136,6 +164,12 @@ class Game_Engine():
             self.current_move[0].id=5
     #def move_maker_handler(i, j):        
     def move_maker(self, i, j):
+        """makes the actual legal move switching the tiles
+
+        Args:
+            i (int): y-axis position
+            j (int): x-axis position
+        """
         self.current_move[0].moved=True 
         if self.current_move[0].id==1:
             self.pawn_to_queen()
@@ -154,22 +188,30 @@ class Game_Engine():
         self.swap_turn()      
                     
     def swap_turn(self):
+        """gives the turn to the other player
+        """
         if self.curr_turn==0:
             self.curr_turn=1
         else: self.curr_turn=0 
-    def king_help_moves(self, move_list):
-        i=0 
-        while i < len(move_list):
-            if move_list[i] in self.check_moves:  
-                move_list.pop(i)
-                i-=1
-            i+=1
-        return move_list
+    
     def mash_negs_together(self, temp_negs):
+        """adds all found threatening tiles to the permanent list
+
+        Args:
+            temp_negs (list): contains the tiles that can be blocked in order to stop the king being threatened
+        """
         for value in temp_negs:
             self.check_moves.append(value)
             
     def viable_moves(self, move_list):
+        """removes all illegal moves from move_list
+
+        Args:
+            move_list (list): list of possible moves
+
+        Returns:
+            list: legal moves
+        """
         viable_moves=[]
         print(self.check_moves, move_list)
         if len(self.check_moves)==0:
@@ -180,12 +222,22 @@ class Game_Engine():
         return viable_moves
     
     def is_threatened(self, tile, i, j):
+        """BLOATED algorithm that finds whether the king is being threatened, the amount of threats and the possible tiles to block the threat(s)
+
+        Args:
+            tile (Tile()): the moving tile
+            i (int): y-axis position
+            j (int): x-axis position
+
+        Returns:
+            list: list of threats
+        """
         if tile.team==0:
             enemy_id=1
         else: enemy_id=0
         if tile.id!=6:
             i,j=self.king_spots[tile.team][0], self.king_spots[tile.team][1]
-        print("kingcords", i, j)
+        
         horsemoves=[(2,1), (2,-1), (1,2), (-1,2), (-2,1), (-2,-1), (-1,-2), (1,-2)]
         queenmoves=[(1,1), (1,-1), (-1, 1), (-1,-1), (1,0), (-1,0), (0, 1), (0,-1)]    
         for move in horsemoves:
@@ -253,6 +305,17 @@ class Game_Engine():
         return self.check_moves
             
     def own_check(self, tile, move_list, y, x):
+        """initialize for is_threatened. removes the piece to be moved to calculate whether moving it puts own king at risk.
+
+        Args:
+            tile (Tile()): the moving tile
+            move_list (list): list of possible moves
+            i (int): y-axis position
+            j (int): x-axis position
+
+        Returns:
+            _type_: _description_
+        """
         print("tileid", tile.id)
         if tile.id==6:
             return move_list
@@ -268,6 +331,16 @@ class Game_Engine():
         return self.viable_moves(move_list)
     
     def find_moves(self, tile, i, j):
+        """calls for the correct function to calculate possible moves by figuring out if a special move finding algorithm is needed
+
+        Args:
+            tile (Tile()): the moving tile
+            i (int): y-axis position
+            j (int): x-axis position
+
+        Returns:
+           list: list of possible moves
+        """
         if tile.id==1:
             return self.pawn_moves(tile, i, j)      
         elif tile.id==6:
@@ -300,6 +373,17 @@ class Game_Engine():
                     valid_moves.append((i+mi, j+mj))
         return valid_moves     
     def towering_check(self, tile, i, j, moves):
+        """checks if towering is possible
+
+        Args:
+            tile (Tile()): the moving tile
+            i (int): y-axis position
+            j (int): x-axis position
+            moves (_type_): _description_
+
+        Returns:
+            list: list of possible towering moves
+        """
         if self.game_matrix[i][j-1].team==-1 and self.game_matrix[i][j-2].team==-1 and self.game_matrix[i][j-3].team==-1 and self.game_matrix[i][j-4].moved==False:
             temp_j=j-2
             self.is_threatened(tile, i, temp_j)
@@ -313,6 +397,16 @@ class Game_Engine():
                 moves.append((i, temp_j))
         return moves
     def king_moves(self, tile, i, j):
+        """calculates the possible moves for the king piece
+
+        Args:
+            tile (Tile()): the moving tile
+            i (int): y-axis position
+            j (int): x-axis position
+
+        Returns:
+            list: list of possible moves
+        """
         king_moves=[]
         if not tile.moved:
             king_moves=self.towering_check(tile, i, j, king_moves)
@@ -334,6 +428,16 @@ class Game_Engine():
                     
                     
     def pawn_moves(self, tile, i, j):
+        """calculates all possible pawn moves
+
+        Args:
+            tile (Tile()): the moving tile
+            i (int): y-axis position
+            j (int): x-axis position
+
+        Returns:
+            list: list of possible moves
+        """
         print("pwn")
         valid_moves=[]
         flipper=1
