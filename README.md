@@ -1,1 +1,16 @@
-Puhuin keskiviikon luennon jälkeen miinaharava projektista, mutten usko siitä riittävän aihetta kurssiksi. Tein aiheesta alustavaa koodia, josta puuttuu kylläkin Hannu Kärnän mainitsema peruuttava haku. Liitän kyseisen koodin projektiin ainakin hetkeksi. Tein miinaharavaan suht kykenevän ratkoja-algoritmin jonka voi laittaa päälle s näppäimellä. ruudukon voi tehdä uudelleen r näppäimellä ja ruudukon kokoa voi muokata self.gamesize arvolla ja miinamäärää self.mineamount. Todennäköisesti kuitenkin vaihdan aiheen shakki-peliin sekä shakkibottii min-max algoritmilla. peliä voi myös pelata hiirellä. Koodia hidastaa eniten varmaankin pygamen pygame.display.update() komento.
+ ### Viikkoraportit:
+ 
+[viikko 1](https://github.com/sepaww/tira_projekti/blob/main/dokumentaatio/viikkorep/vko_1.md)
+ 
+[viikko 2](https://github.com/sepaww/tira_projekti/blob/main/dokumentaatio/viikkorep/vko_2.md)
+ 
+[viikko 3](https://github.com/sepaww/tira_projekti/blob/main/dokumentaatio/viikkorep/vko_3.md)
+ 
+[viikko 4](https://github.com/sepaww/tira_projekti/blob/main/dokumentaatio/viikkorep/vko_4.md)
+ 
+[viikko 5](https://github.com/sepaww/tira_projekti/blob/main/dokumentaatio/viikkorep/vko_5.md)
+ 
+[viikko 6](https://github.com/sepaww/tira_projekti/blob/main/dokumentaatio/viikkorep/vko_6.md)
+ 
+ ## tunti kirjanpito
+ [tässä](https://github.com/sepaww/tira_projekti/blob/main/dokumentaatio/kirjanpito.md)
