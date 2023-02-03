@@ -40,15 +40,16 @@ class Tile():
         self.type=typelist[id]
         self.is_crit=-1
 class Game_Engine():
-    def __init__(self, p1, p2):
+    def __init__(self, p1, p2, looping, starter):
         """Init the needed values for starting the game
         """
         self.player_one=p1
         self.player_two=p2
         self.game_size=1100
         self.table_size=8
-        self.starter=0
+        self.starter=starter
         self.threats=0
+        self.tick_rate=10
         self.temp_save=None
         self.current_move=None
         self.curr_player=self.starter
@@ -61,7 +62,7 @@ class Game_Engine():
         self.tilesize=int(self.game_size/self.table_size)
         self.crit_list=[0,0,0,0,0,0,0,0]
         self.king_move_list=[]
-        self.running=True
+        self.running=looping
         self.bot_models=[RB]
         self.game_matrix=[]
         self.init_game_matrix()
@@ -160,7 +161,7 @@ class Game_Engine():
         """update function that contains the main loop running the game
         """
         while self.running:
-            self.Renderer.clock.tick(2)
+            self.Renderer.clock.tick(self.tick_rate)
             self.turn_handler()
             self.Renderer.update_screen()
     def turn_handler(self):
@@ -438,6 +439,19 @@ class Game_Engine():
         return enemy_id
     
     def recursive_threat_find(self, enemy_id, formaat, i, j, temp_negs):
+        """algorithm to find out if moving a piece in critical place would threaten own king (be illegal).
+        for quickness each critical piece knows its format. (which direction the threat could come fom)
+
+        Args:
+            enemy_id (int): id of enemy team
+            formaat (tuple): the direction enemy threat could come from
+            i (int): y axis
+            j (int): x axis
+            temp_negs (list): list of possible threatening tiles that the current piece could go to without putting king at risk
+
+        Returns:
+            _type_: _description_
+        """
         mi, mj=formaat[0], formaat[1]
         if 0<=i+mi<self.table_size and 0<=j+mj<self.table_size:
                     if self.game_matrix[i+mi][j+mj].team==-1:
@@ -643,5 +657,6 @@ class Game_Engine():
                 if tile.team!=self.game_matrix[i+eat[1][0]][j+eat[1][1]].team and self.game_matrix[i+eat[1][0]][j+eat[1][1]].team!=-1:
                     valid_moves.append((i+eat[1][0], j+eat[1][1]))
         return valid_moves
-    
-game=Game_Engine(("bot", 0), ("bot", 0))
+if __name__=="__main__":    
+    #game=Game_Engine(("bot", 0), ("bot", 0), True, 0)
+    game=Game_Engine(("p", 0), ("p", 0), True, 0)

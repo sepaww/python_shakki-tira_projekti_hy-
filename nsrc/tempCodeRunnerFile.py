@@ -1,0 +1,1 @@
+Tile(4, 1, self.type_list)
