@@ -14,7 +14,9 @@ class Input_Handler():
         j=int(mouse[1]/self.tile_size)
         for event in pygame.event.get():
             self.exit_input(event)
-            if event.type==pygame.MOUSEBUTTONDOWN:
+            if event.type==pygame.KEYDOWN and event.key==pygame.K_r:
+                return "r"
+            elif event.type==pygame.MOUSEBUTTONDOWN:
                 if event.button==1:
                     return i, j
             
