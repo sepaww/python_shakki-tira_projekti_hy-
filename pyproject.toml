@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "tiragit2"
+version = "0.1.0"
+description = ""
+authors = ["sepaww <tarmo.lindfors@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+invoke = "^2.0.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.1"
+pylint = "^2.16.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
