@@ -61,6 +61,7 @@ class Game_Engine():
         self.type_list=[0, Pawn(), Bishop(), Knight(), Rook(), Queen(), King()]
         self.tilesize=int(self.game_size/self.table_size)
         self.crit_list=[0,0,0,0,0,0,0,0]
+        self.eat_count=0
         self.king_move_list=[]
         self.running=looping
         self.bot_models=[RB]
@@ -144,6 +145,7 @@ class Game_Engine():
         if self.starter==0:
             self.curr_player=self.player_one
         else: self.curr_player=self.player_two
+        self.eat_count=0
         self.init_game_matrix()
         self.init_king_track()
         self.crit_reset()
@@ -165,13 +167,19 @@ class Game_Engine():
             self.turn_handler()
             self.Renderer.update_screen()
     def turn_handler(self):
+        """the first function ran every turn. checks if the current player is a bot or a player.
+        if the current player is a bot, it gets its turn with gain_turn function, which is supposed to return the move to be made.
+        has no legality check so we suppose the bot returns only legal moves.
+        """
         if self.curr_player.is_bot:
+            self.check_input()
             move=self.curr_player.gain_turn(self.perm_checks)   
             self.current_move=(move[2], move[3], move[4])
             self.move_maker(move[0], move[1])
         else: self.input_handler()     
     def input_handler(self):
-        """the parent function for handling unit movement. takes info from input_handler and based on whether currently trying to
+        """player function
+        the parent function for handling unit movement. takes info from input_handler and based on whether currently trying to
         move or not will call for find_moves or move_maker
         """
         info=self.Renderer.input_handler.current_input()
@@ -252,7 +260,12 @@ class Game_Engine():
             self.Renderer.reset_tile((self.current_move[1],self.table_size-1)) 
         else: 
             self.game_matrix[i][j]=self.current_move[0]
-            self.game_matrix[self.current_move[1]][self.current_move[2]]=Tile(0, -1, self.type_list)       
+            self.game_matrix[self.current_move[1]][self.current_move[2]]=Tile(0, -1, self.type_list)      
+    def check_input(self):
+        info=self.Renderer.input_handler.current_input()
+        if info!=None: 
+            if info=="r":
+                self.reset_game()
     def move_maker(self, i, j):
         """makes the actual legal move switching the tiles
 
@@ -261,6 +274,9 @@ class Game_Engine():
             j (int): x-axis position
         """
         self.current_move[0].moved=True 
+        if self.game_matrix[i][j].id!=0:
+            self.eat_count+=1
+            print(self.eat_count)
         if self.current_move[0].id==1:
             self.pawn_to_queen()
         if self.current_move[0].id==6:
@@ -293,7 +309,20 @@ class Game_Engine():
         self.perm_checks=[]
         self.crit_reset()
         self.king_check()
-    
+        
+    def player_can_move(self):
+        """function for finding out whether a player can make a move or if the game is a draw
+
+        Returns:
+            bool: can move
+        """
+        for i in range(self.table_size):
+            for j in range(self.table_size):
+                if self.game_matrix[i][j].team==self.curr_turn:
+                    moves=self.find_moves(self.game_matrix[i][j], i ,j)
+                    if moves!=[]:
+                        return True
+        return False
     def mash_negs_together(self, temp_negs):
         """adds all found threatening tiles to the permanent list
 
@@ -359,6 +388,7 @@ class Game_Engine():
         Returns:
             list: list of threats
         """
+        self.check_moves=[]
         enemy_id=self.give_enemy_id(tile)
         horsemoves=[(2,1), (2,-1), (1,2), (-1,2), (-2,1), (-2,-1), (-1,-2), (1,-2)]
         queenmoves=[(1,1), (1,-1), (-1, 1), (-1,-1), (1,0), (-1,0), (0, 1), (0,-1)]    
@@ -497,6 +527,15 @@ class Game_Engine():
         k_tile=self.game_matrix[ki][kj]
         self.is_threatened(k_tile, ki, kj)
         if self.check_moves==[]:
+            if self.eat_count!=30:
+                if self.player_can_move():
+                    return
+                else:
+                    print("cant move or check anymore: draw")
+                    self.checkmate_loop()
+            else:        
+                print("cant move or check anymore: draw")
+                self.checkmate_loop()
             return
         print("check")
         self.perm_checks=self.check_moves.copy()
@@ -520,6 +559,7 @@ class Game_Engine():
                     
         
     def checkmate_loop(self):
+        self.Renderer.whole_update_screen()
         looping=True
         while looping:
             info=self.Renderer.input_handler.main_inputs()
@@ -659,4 +699,4 @@ class Game_Engine():
         return valid_moves
 if __name__=="__main__":    
     #game=Game_Engine(("bot", 0), ("bot", 0), True, 0)
-    game=Game_Engine(("p", 0), ("p", 0), True, 0)
+    game=Game_Engine(("bot", 0), ("bot", 0), True, 0)
