@@ -1,5 +1,6 @@
 from ui.visuals import Renderer as rend
 from rand_bot_model import RandBot as RB
+from tunnelvision_bot_model import TunnelVision_bot as TVB
 from player import Player as P
 class King():
     def __init__(self):
@@ -39,6 +40,8 @@ class Tile():
         self.moved=False
         self.type=typelist[id]
         self.is_crit=-1
+        self.i=0
+        self.j=0
 class Game_Engine():
     def __init__(self, p1, p2, looping, starter):
         """Init the needed values for starting the game
@@ -49,7 +52,7 @@ class Game_Engine():
         self.table_size=8
         self.starter=starter
         self.threats=0
-        self.tick_rate=10
+        self.tick_rate=2
         self.temp_save=None
         self.current_move=None
         self.curr_player=self.starter
@@ -63,9 +66,12 @@ class Game_Engine():
         self.crit_list=[0,0,0,0,0,0,0,0]
         self.eat_count=0
         self.king_move_list=[]
+        self.p1_unitlist=[]
+        self.p2_unitlist=[]
         self.running=looping
-        self.bot_models=[RB]
+        self.bot_models=[RB, TVB]
         self.game_matrix=[]
+        self.last_move=[0,0,0]
         self.init_game_matrix()
         self.init_king_track()
         self.init_players()
@@ -74,11 +80,11 @@ class Game_Engine():
     def init_players(self):
         if self.player_one[0]=="bot":
             model=self.bot_models[self.player_one[1]]
-            self.player_one=model(0, self.game_matrix, self.crit_list)
+            self.player_one=model(0, self.game_matrix, self.crit_list, self.p1_unitlist, self.last_move)
         else: self.player_one=P()
         if self.player_two[0]=="bot":
             model=self.bot_models[self.player_two[1]]
-            self.player_two=model(1, self.game_matrix, self.crit_list)
+            self.player_two=model(1, self.game_matrix, self.crit_list, self.p2_unitlist, self.last_move)
         else: self.player_two=P()  
         if self.starter==0:
             self.curr_player=self.player_one
@@ -113,7 +119,16 @@ class Game_Engine():
                 self.game_matrix[1].append(Tile(0, -1, self.type_list))
                 self.game_matrix[self.table_size-2].append(Tile(0, -1, self.type_list))
                 self.game_matrix[self.table_size-1].append(Tile(0, -1, self.type_list))
-    
+        #add the i and j cordinates to each tile
+        for i in range(self.table_size):
+            for j in range(self.table_size):
+                self.game_matrix[i][j].i=i
+                self.game_matrix[i][j].j=j
+                print(self.game_matrix[i][j].j,j,self.game_matrix[i][j].i, i)
+                #if self.game_matrix[i][j].team==1:
+                #    self.p2_unitlist.append(self.game_matrix[i][j])
+                #elif self.game_matrix[i][j].team==0:
+                #    self.p1_unitlist.append(self.game_matrix[i][j])
     def init_king_track(self):
         """initiates the needed info for tracking the kings
         """
@@ -146,6 +161,8 @@ class Game_Engine():
             self.curr_player=self.player_one
         else: self.curr_player=self.player_two
         self.eat_count=0
+        for value in self.last_move:
+            value=0
         self.init_game_matrix()
         self.init_king_track()
         self.crit_reset()
@@ -173,7 +190,9 @@ class Game_Engine():
         """
         if self.curr_player.is_bot:
             self.check_input()
-            move=self.curr_player.gain_turn(self.perm_checks)   
+            king_moves=self.king_moves(self.game_matrix[self.king_spots[self.curr_turn][0]][self.king_spots[self.curr_turn][1]], self.king_spots[self.curr_turn][0], self.king_spots[self.curr_turn][1])
+            move=self.curr_player.gain_turn(self.perm_checks, self.game_matrix, king_moves) 
+            #print(move, move[2].id)  
             self.current_move=(move[2], move[3], move[4])
             self.move_maker(move[0], move[1])
         else: self.input_handler()     
@@ -227,7 +246,7 @@ class Game_Engine():
         for move in move_list:
             self.Renderer.draw_possible_moves(move)  
 
-    def pawn_to_queen(self):
+    def pawn_to_queen(self, i, j):
         """turns a pawn to a queen as it reaches the enemy backline
         """
         if self.current_move[0].team==1 and self.current_move[1]==6:
@@ -236,7 +255,8 @@ class Game_Engine():
         elif self.current_move[0].team==0 and self.current_move[1]==1: 
             self.current_move[0].type=Queen()
             self.current_move[0].id=5
-            
+        self.game_matrix[i][j]=self.current_move[0]
+        self.game_matrix[self.current_move[1]][self.current_move[2]]=Tile(0, -1, self.type_list)     
     #def move_maker_handler(i, j):
     def towering_move(self, i, j):
         """commits towering if possible
@@ -266,6 +286,7 @@ class Game_Engine():
         if info!=None: 
             if info=="r":
                 self.reset_game()
+                
     def move_maker(self, i, j):
         """makes the actual legal move switching the tiles
 
@@ -273,13 +294,11 @@ class Game_Engine():
             i (int): y-axis position
             j (int): x-axis position
         """
-        self.current_move[0].moved=True 
         if self.game_matrix[i][j].id!=0:
-            self.eat_count+=1
-            print(self.eat_count)
+            self.eat_count+=1 
         if self.current_move[0].id==1:
-            self.pawn_to_queen()
-        if self.current_move[0].id==6:
+            self.pawn_to_queen(i, j)
+        elif self.current_move[0].id==6:
             self.update_king_track(self.current_move[0], i, j) 
             #code for executing towering
             self.towering_move(i, j)
@@ -289,12 +308,33 @@ class Game_Engine():
             self.game_matrix[self.current_move[1]][self.current_move[2]]=Tile(0, -1, self.type_list) 
         self.Renderer.reset_tile((self.current_move[1],self.current_move[2]))  
         self.Renderer.reset_tile((i, j))
-        self.current_move=[]
+        
         for move in self.current_move_list:
             self.Renderer.reset_tile(move) 
+        self.move_related_info_update(i,j)
+        self.current_move=[]
         self.current_move_list=[]
-        self.swap_turn()      
-                    
+        self.swap_turn()    
+          
+    def move_related_info_update(self, i, j): 
+        """updates the information of unit position and removes the eaten piece (if piece is being eaten)
+
+        Args:
+            i (int): y axis index
+            j (int): x axis index
+        """
+        print(self.last_move, self.current_move)
+        self.last_move[1]=self.current_move[1]
+        self.last_move[2]=self.current_move[2]
+        self.last_move[0]=self.current_move[0]
+        self.current_move[0].moved=True 
+        self.game_matrix[i][j].i=i
+        self.game_matrix[i][j].j=j
+        #if self.game_matrix[i][j].team==1:
+        #    self.p2_unitlist.remove(self.game_matrix[i][j])          
+        #elif self.game_matrix[i][j].team==0:
+        #    self.p1_unitlist.remove(self.game_matrix[i][j]) 
+            
     def swap_turn(self):
         """gives the turn to the other player
         """
@@ -351,6 +391,9 @@ class Game_Engine():
         return viable_moves
     
     def crit_list_adder(self, tile, mi, mj):
+        """function for adding a critical piece (a piece that protects the king from a certain column)
+        to crit_list. this way we can easily check if moving the critical piece puts king at risk (illegal move)
+        """
         if mi==-1 and mj==-1:
             self.crit_list[0]=tile
             tile.is_crit=0
@@ -379,6 +422,7 @@ class Game_Engine():
     def is_threatened(self, tile, i, j):
         #print(self.check_moves)
         """BLOATED algorithm that finds whether the king is being threatened, the amount of threats and the possible tiles to block the threat(s)
+        is also used in general to find if a tile is in fact threatened or not
 
         Args:
             tile (Tile()): the moving tile
@@ -463,9 +507,21 @@ class Game_Engine():
         return self.check_moves
     
     def give_enemy_id(self, tile):
+        """a simple function to reduce copypaste in code. returns the enemy id, unless the tile given is empty.
+        if so, return the id of current player (this is used only when we want to know if some character can save the king)
+
+        Args:
+            tile (Tile): given tile
+
+        Returns:
+            int: id of the enemy
+        """
         if tile.team==0:
             enemy_id=1
-        else: enemy_id=0
+        elif tile.team==1:
+            enemy_id=0
+        else:
+            enemy_id=self.curr_turn
         return enemy_id
     
     def recursive_threat_find(self, enemy_id, formaat, i, j, temp_negs):
@@ -526,19 +582,21 @@ class Game_Engine():
         ki, kj=self.king_spots[self.curr_turn][0], self.king_spots[self.curr_turn][1]
         k_tile=self.game_matrix[ki][kj]
         self.is_threatened(k_tile, ki, kj)
+        self.perm_checks=self.check_moves.copy()
         if self.check_moves==[]:
             if self.eat_count!=30:
                 if self.player_can_move():
+                    print(self.curr_turn, "can move")
                     return
                 else:
                     print("cant move or check anymore: draw")
                     self.checkmate_loop()
             else:        
-                print("cant move or check anymore: draw")
+                print("cant move or check anymore: draw, only kings")
                 self.checkmate_loop()
             return
         print("check")
-        self.perm_checks=self.check_moves.copy()
+        
         self.tthreats=self.threats
         self.king_move_list=self.king_moves(k_tile, ki, kj)
         self.check_moves=[]
@@ -550,12 +608,12 @@ class Game_Engine():
                 for move in self.perm_checks:
                     self.is_threatened(self.game_matrix[move[0]][move[1]], move[0], move[1])
                     if len(self.check_moves)>0:
-                        print("winnable")
+                        print("winnable 1")
                         return
                 print("checkmate")
                 self.checkmate_loop()
             else:
-                print("winnable")
+                print("winnable 2")
                     
         
     def checkmate_loop(self):
@@ -699,4 +757,4 @@ class Game_Engine():
         return valid_moves
 if __name__=="__main__":    
     #game=Game_Engine(("bot", 0), ("bot", 0), True, 0)
-    game=Game_Engine(("bot", 0), ("bot", 0), True, 0)
+    game=Game_Engine(("bot", 1), ("bot", 1), True, 0)
