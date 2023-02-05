@@ -14,6 +14,9 @@
  
  ## tuntikirjanpito
  [tässä](https://github.com/sepaww/tira_projekti/blob/main/dokumentaatio/kirjanpito.md)
+ 
+ ## Testaus
+ [testausdokumentti](https://github.com/sepaww/tira_projekti/blob/main/dokumentaatio/testaus.md)
 
 ## Näin saat pelin toimimaan:
 
