@@ -26,6 +26,10 @@ class MinMaxBot():
         self.best_moves=[]
         self.counter=0
         self.game_matrix=game_matrix
+        temp_matrix=[]
+        for row in self.game_matrix:
+            temp_matrix.append(row.copy())
+        self.game_matrix=temp_matrix
         self.check_list=check_list
         if self.turn_count<1:
             self.turn_count+=1
@@ -33,7 +37,7 @@ class MinMaxBot():
                 return (4, 4, self.game_matrix[6][4], 6, 4)
             return (3, 4, self.game_matrix[1][4], 1, 4)
         
-        self.minmax_init(self.game_matrix)
+        self.minmax_init()
         print(self.best_moves)
         ret_info=heappop(self.best_moves)
         print(ret_info)
@@ -44,21 +48,26 @@ class MinMaxBot():
         #print(move)
         return move
 
-    def find_pieces(self, board, team):
-        piece_list=[]
+    def find_pieces(self, team):
+        sort_list=[]
+        c=0
         for i in range(self.board_size):
             for j in range(self.board_size):
                 #print(self.game_matrix[i][j].i, i, self.game_matrix[i][j].j, j)
-                if board[i][j].team==team:
-                    piece_list.append(board[i][j])
+                if self.game_matrix[i][j].team==team:
+                    heappush(sort_list, (-1*self.game_matrix[i][j].id, c, self.game_matrix[i][j]))
+                    c+=1
+        piece_list=[]
+        while sort_list!=[]:
+            val=heappop(sort_list)
+            piece_list.append(val[2])        
         #print(len(piece_list))
         return piece_list
                     
-    def minmax_init(self, board):
-        board=self.board_copier(board)
-        moves=self.get_legal_moves(board, self.team)   
+    def minmax_init(self):
+        moves=self.get_legal_moves(self.team)   
                   
-        self.minmax(True, self.depth, board, moves, -1000000, 100000)
+        self.minmax(True, self.depth, moves, -1000000, 100000)
         
     
     
@@ -73,11 +82,11 @@ class MinMaxBot():
         return new_c_board
     
     
-    def minmax(self, evil_maxxing, depth, board, all_moves, alpha, beta):
+    def minmax(self, evil_maxxing, depth,all_moves, alpha, beta):
         if depth==0:
             #self.copes.append(board.copy())
             #if evil_maxxing:
-            return self.board_evaluator(board, True)-self.board_evaluator(board, False)
+            return self.board_evaluator(True)-self.board_evaluator(False)
             #else:
                 #return self.board_evaluator(board, False)-self.board_evaluator(board, True)
         if evil_maxxing:
@@ -86,17 +95,19 @@ class MinMaxBot():
                 piece=moves[0]
                 movess=moves[1]
                 for move in movess:
-                    new_board=self.board_copier(board) 
-                    new_board=self.make_move(new_board, move, piece)
+                    temp_move=self.game_matrix[move[0]][move[1]]
+                    og_spot=(piece.i, piece.j)
+                    self.make_move( move, piece)
                     #value=max(value,(self.board_evaluator(new_board, True) - self.board_evaluator(new_board, False)))
-                    new_moves=self.get_legal_moves(new_board, self.enemy_id)
-                    value=max(value, self.minmax(False, depth-1, new_board, new_moves, alpha, beta))
+                    new_moves=self.get_legal_moves(self.enemy_id)
+                    value=max(value, self.minmax(False, depth-1, new_moves, alpha, beta))
                     if depth == self.depth and piece.id!=6:
                         self.counter+=1
                         #print(self.counter)
                         c=self.counter
                         
-                        heappush(self.best_moves,(-value,c, move, piece))
+                        heappush(self.best_moves,(-1*value,c, move, piece))
+                    self.unmake_move(temp_move, og_spot, piece)
                     alpha = max(alpha, value)
                     if value >= beta:
                         break
@@ -107,11 +118,13 @@ class MinMaxBot():
                 piece=moves[0]
                 movess=moves[1]
                 for move in movess:
-                    new_board2=self.board_copier(board) 
-                    new_board2=self.make_move(new_board2, move, piece)
+                    temp_move=self.game_matrix[move[0]][move[1]]
+                    og_spot=(piece.i, piece.j)
+                    self.make_move(move, piece)
                     #value=min(value,(self.board_evaluator(new_board, False) - self.board_evaluator(new_board, True)))
-                    new_moves=self.get_legal_moves(new_board2, self.team)
-                    value=min(value, self.minmax(True, depth-1, new_board2, new_moves, alpha, beta))
+                    new_moves=self.get_legal_moves(self.team)
+                    value=min(value, self.minmax(True, depth-1, new_moves, alpha, beta))
+                    self.unmake_move(temp_move, og_spot, piece)
                     beta = min(beta, value)
                     if value <= alpha:
                         break
@@ -119,31 +132,51 @@ class MinMaxBot():
         
         
         
-    def board_evaluator(self,board, is_team):
+    def board_evaluator(self,is_team):
+        #print("-----")
         pos_val=0
+        king_found=False
         if is_team:
             curr_id=self.team
         else: curr_id=self.enemy_id
         for i in range(self.board_size):
             for j in range(self.board_size):
-                if board[i][j].team==curr_id:
-                    pos_val+=self.weights[board[i][j].id]
-                    #pos_val+=self.y_values[i]
+                if self.game_matrix[i][j].team==curr_id:
+                    pos_val+=self.weights[self.game_matrix[i][j].id]
+                    pos_val+=self.y_values[i]
                     #pos_val+=self.x_values[j]
+                    if self.game_matrix[i][j].id==6:
+                        king_found=True
         #print(pos_val)
-        return pos_val        
+        if king_found:
+            return pos_val  
+        if is_team:      
+            return -10000000
+        return 0
         
-    def get_legal_moves(self, board, team):
-        piece_list=self.find_pieces(board, team)
-        moves=self.engine.engine_operator(1, piece_list, board, 0, 0)  
+    def get_legal_moves(self,team):
+        piece_list=self.find_pieces(team)
+        moves=self.engine.engine_operator(1, piece_list,self.game_matrix,0, 0)  
         #print(moves)
         return moves
     
-    def make_move(self, board, move, piece):
+    def make_move(self,move, piece):
         i=piece.i
         j=piece.j
-        board[move[0]][move[1]]=piece
-        self.engine.empty_tiler(i, j, board)
-        return board
-        
+        piece.i=move[0]
+        piece.j=move[1]
+        piece.moved=True
+        self.game_matrix[move[0]][move[1]]=piece
+        self.engine.empty_tiler(i, j, self.game_matrix)
+        #print("id nyt", self.game_matrix[i][j].id)
+         
+    
+    def unmake_move(self, temp_move, og_spot, piece):
+       #print("-----")
+        self.game_matrix[piece.i][piece.j]=temp_move
+        #print(self.game_matrix[piece.i][piece.j].id)
+        self.game_matrix[og_spot[0]][og_spot[1]]=piece
+        piece.i=og_spot[0] 
+        piece.j=og_spot[1]   
+        #print(self.game_matrix[piece.i][piece.j].id)
         
