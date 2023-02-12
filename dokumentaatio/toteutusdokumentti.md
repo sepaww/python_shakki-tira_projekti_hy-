@@ -11,56 +11,28 @@ ohjelman rakenne voidaan jakaa raa'asti:
 ## luokka kaavio pelin sisäisten tiedostojen suhteesta
  ```mermaid
  classDiagram
-      src "*" -- ui
-       src "*" -- services
-        src "*" -- repositories
-        src "*" -- tests
-         ui "*" -- screen
-         ui "*" -- inputs
-         ui "*" -- tools
-         services "*" -- day_change_op
-         services "*" -- ending_screen_op
-         services "*" -- finance
+      ui -- visuals.py
+      ui -- inputs.py
+      engine.py -- visuals
+      visual.py -- inputs.py
+      engine.py -- rand_bot_model.py -- false_engine.py
+      engine.py -- tunnelvision_bot_model.py
+      
          
-      class src{
-          }
-      class tests{
-      all tests
-          }
       class ui{
           }
-      class services{
+    
+      class visuals{
           }
-      class repositories{
-      database_op.py
-      stats.py
+      class inputs.py{
           }
-      class day_change_op{
-      day_change_operator.py
-      day_change.py
-          }
-      class screen{
-      draw_ending.py
-      draw_screen.py
-      draw_start_screen.py
-          }
-      class inputs{
-      start_inputs.py
-      end_inputs.py
-      inputs.py
-          }
-      class tools{
-      draw_highlight.py
-      draw_normal.py
-          }
-      class ending_screen_op{
-      ending_init.py
-      
-          }
-      class finance{
-      effects.py
-      finance.py
-      items.py
-      stock_creator.py
-      stock_history.py
-          }
+      class minmax_bot_model.py{
+                }
+      class  player.py{
+         }
+      class tunnelvision_bot_model.py{
+      }
+      class rand_bot_model.py{
+      }
+      class false_engine.py{
+      }
