@@ -8,7 +8,7 @@ ohjelman rakenne voidaan jakaa raa'asti:
 - inputs.py, joka mahdollistaa shakin pelaamisen ihmisenä
 - visuals.py, joka pygame libraryn avulla tuottaa pelistä graafisen käyttöliittymän käytettävyyden parantamiseksi.
 
-## luokka kaavio pelin sisäisten tiedostojen suhteesta
+## luokkakaavio pelin sisäisten tiedostojen suhteesta
  ```mermaid
  classDiagram
       ui -- visuals
@@ -42,3 +42,11 @@ ohjelman rakenne voidaan jakaa raa'asti:
       class false_engine{
       }
 ```
+## Toiminta selitettynä lyhyesti
+Engine.py on korkeimmalla sovelluksen hierarkiassa. sen tehtäviä on muunmuassa pelin ylläpito, liikkeiden haku, muiden tiedostojen kutsuminen sekä bottien antamien liikkeiden (tai pelaajan) toteuttaminen. Kun siirto on toteutettu engine.py tarkastaa onko liikkeestä seurannut shakki (uhka). Jos on, tarkastetaan onko kyseessä matti vai voiko uhattu pelaaja selvitä shakista jollakin liikkeellä. engine.py myös tarkastaa voiko pelaaja liikkua vai ei. Jollei, niin seuraa tasapeli. engine.py ilmoittaa havainnoistaan komentoriville. Huom! engine.py ei tarkasta vastaanottamansa botin liikkeen laillisuutta, vaan olettaa sen olevan laillinen. engine.py:n voi käynnistää eri tavoin riippuen millä arvoilla GameEngine luokka käynnistetään. pelaajat määritetään "bot" stringin avulla voidaan ilmoittaa, että pelaaja on botti ja seuraavalla numero arvolla, mikä malli. minmaxin saa arvolla 2.
+
+minmax_bot_model.py perustuu minmax algoritmin perusteella toimivaan parhaan liikkeen etsintään. minmax käy läpi kaikki mahdolliset liikkeet, ja valitsee niistä parhaan lopputuloksen annettuun syvyyteen asti. syvyyttä voi muokata muuttamalla arvoa self.depth (suositellaan 3 tai 4 tai 5. mitä suurempi sitä hitaampi). Minmaxia on kuitenkin optimoitu alpha-beta karsinnalla, joka poistaa turhien liikkeiden läpikäyntiä. Näin tapahtuu kun tiedetään, että on jo olemassa parempi vaihtoehto kyseisen liikkeen sijaan. jokainen mahdollinen alkuperäisen syvyyden nappulan paras liike talletetaan self.best_moves listaan, josta heapq:n avulla valitaan parhaan arvon tuottava siirto. valittu siirto palautetaan tietyssä tuple muodossa engine.py:lle, josta voidaan lukea siirrettävä nappula sekä sen päämäärä.
+
+false_engine.py on suurimmilta osiltaan täysi kopio engine.py:stä, mistä on poistettu osa enginen funktioista. sen tehtävä on tarjota engine.py funktioita, kuten liikeiden löytämistä boteille. Hierarkian takia botit eivät pääse käsiksi enginen ominaisuuksiin, joten false_engine.py korjaa tämän virheen.
+
+
