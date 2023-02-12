@@ -18,7 +18,4 @@ opiskelen TKT tutkintoa ja osaan (toistaiseksi) ainoastaan pythonia sujuvasti
 - Pelin koodiin tehdään kattavat ja järkevät yksikkötestit sekä isompaa kokonaisuutta testaavat testit.
 
 ## Näkymät
-- Pelin rakenne koostuu aloitusruudusta, josta pelaaja voi valita haluamansa pelitilan:
-  - eri pelitiloja on joko yksinpeli bottia vastaan, pelaaja vastaan pelaaja tai botti vastaan botti
-  - Pelaaja voi myös valita yksinpelissä onko tämä musta vai valkoinen
-- Itse pelinäkymä tulee olla tavallisen shakin näköinen
+- Itse pelinäkymän tulee olla tavallisen shakin näköinen
