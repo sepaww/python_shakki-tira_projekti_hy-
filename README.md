@@ -15,9 +15,9 @@
  ## tuntikirjanpito
  [tässä](https://github.com/sepaww/tira_projekti/blob/master/dokumentaatio/kirjanpito.md)
  
- ## Testaus
+ ## Testaus ja toteutus
  [testausdokumentti](https://github.com/sepaww/tira_projekti/blob/master/dokumentaatio/testaus.md)
-
+ [toteutusdokumentti](https://github.com/sepaww/tira_projekti/blob/master/dokumentaatio/toteutusdokumentti.md)
 ## Näin saat pelin toimimaan:
 
 1. Asennetaan riippuvuudet komennolla:
