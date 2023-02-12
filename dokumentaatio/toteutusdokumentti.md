@@ -14,17 +14,19 @@ ohjelman rakenne voidaan jakaa raa'asti:
       ui -- visuals
       ui -- inputs
       engine -- visuals
-      visual -- inputs
+      visuals -- inputs
       engine -- rand_bot_model
       engine -- tunnelvision_bot_model
       engine -- minmax_bot_model
+      engine -- player
       minmax_bot_model -- false_engine
       rand_bot_model -- false_engine
       tunnelvision_bot_model -- false_engine
          
       class ui{
           }
-    
+      class tests{
+      }
       class visuals{
           }
       class inputs{
