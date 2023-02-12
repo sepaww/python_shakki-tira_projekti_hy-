@@ -13,7 +13,7 @@ ohjelman rakenne voidaan jakaa raa'asti:
  classDiagram
       ui -- visuals.py
       ui -- inputs.py
-      engine.py -- visuals
+      engine.py -- visuals.py
       visual.py -- inputs.py
       engine.py -- rand_bot_model.py
       engine.py -- tunnelvision_bot_model.py
@@ -39,3 +39,4 @@ ohjelman rakenne voidaan jakaa raa'asti:
       }
       class false_engine.py{
       }
+```
