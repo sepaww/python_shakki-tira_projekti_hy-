@@ -17,7 +17,10 @@ ohjelman rakenne voidaan jakaa raa'asti:
       visual.py -- inputs.py
       engine.py -- rand_bot_model.py -- false_engine.py
       engine.py -- tunnelvision_bot_model.py
-      
+      engine.py -- minmax_bot_model.py
+      minmax_bot_model.py -- false_engine.py
+      rand_bot_model.py -- false_engine.py
+      tunnelvision_bot_model.py -- false_engine.py
          
       class ui{
           }
@@ -27,9 +30,9 @@ ohjelman rakenne voidaan jakaa raa'asti:
       class inputs.py{
           }
       class minmax_bot_model.py{
-                }
+      }
       class  player.py{
-         }
+      }
       class tunnelvision_bot_model.py{
       }
       class rand_bot_model.py{
