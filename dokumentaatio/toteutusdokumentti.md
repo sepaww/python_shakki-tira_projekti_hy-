@@ -15,7 +15,7 @@ ohjelman rakenne voidaan jakaa raa'asti:
       ui -- inputs.py
       engine.py -- visuals
       visual.py -- inputs.py
-      engine.py -- rand_bot_model.py -- false_engine.py
+      engine.py -- rand_bot_model.py
       engine.py -- tunnelvision_bot_model.py
       engine.py -- minmax_bot_model.py
       minmax_bot_model.py -- false_engine.py
