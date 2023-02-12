@@ -1,5 +1,7 @@
 ## Tehtävänä toteuttaa shakkipeli siihen kuuluvalla pelilogiikalla ja pelin sisäinen shakkibotti.
 
+opiskelen TKT tutkintoa ja osaan (toistaiseksi) ainoastaan pythonia sujuvasti
+
 ## Käyttöliittymä
 - Käyttöliittymä toteutetaan python kirjaston pygame avulla. Pelissä tulee olla graafinen käyttöliittymä, joka päivittyy peli tilanteen mukaan.
 - Pelaajan tulee voida pelata shakkia hiirellä robottia vastaan. Pelaajan valitessa nappulan täytyy sen mahdolliset liikkeet esittää ruudulla pelaajalle.
