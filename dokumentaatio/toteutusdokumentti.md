@@ -11,9 +11,9 @@ ohjelman rakenne voidaan jakaa raa'asti:
 ## luokka kaavio pelin sisäisten tiedostojen suhteesta
  ```mermaid
  classDiagram
-      ui -- visuals.py
-      ui -- inputs.py
-      engine.py -- visuals.py
+      ui "*" -- visuals.py
+      ui "*" -- inputs.py
+      engine.py "*" -- visuals.py
       visual.py -- inputs.py
       engine.py -- rand_bot_model.py
       engine.py -- tunnelvision_bot_model.py
