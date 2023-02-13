@@ -49,4 +49,10 @@ minmax_bot_model.py perustuu minmax algoritmin perusteella toimivaan parhaan lii
 
 false_engine.py on suurimmilta osiltaan täysi kopio engine.py:stä, mistä on poistettu osa enginen funktioista. sen tehtävä on tarjota engine.py funktioita, kuten liikeiden löytämistä boteille. Hierarkian takia botit eivät pääse käsiksi enginen ominaisuuksiin, joten false_engine.py korjaa tämän virheen.
 
+## Puutteet
+- Minmax botti ei huomioi tiettyjä shakin erikoissiirtoja. Esimerkiksi tornittaminen tai sotilaan muuttuminen kuningattareksi eivät kuulu sen tiedostamiin liikkeisiin.
+- Alpha-Beta karsinnan ansiosta laskenta syvyyttä on voitu nostaa viiteen. Se kuitenkin saattaa aiheuttaa kriittisiä mokia. Esimerkiksi tilanteessa, jossa vihollisen paras liike on välttää sotilaan syöminen omalla sotilaallaan jää huomioimatta, sillä botti arvioi sotilaan syömisen olevan paras mahdollinen siirto. Tästä syystä syömisen välttämistä seuraavan tilanteen paremmuutta ei ikinä tulla huomioimaan, koska sitä pidetään turhana laskentana.
+- Koodin hierarkisuuden takia teidosto false_engine on hieman epäselvä.
 
+## Lähteet
+- kurssimateriaali, erityisesti pdf minmaxista
