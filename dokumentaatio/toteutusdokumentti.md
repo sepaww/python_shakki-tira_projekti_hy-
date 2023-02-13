@@ -15,9 +15,9 @@ ohjelman rakenne voidaan jakaa raa'asti:
       ui -- inputs
       engine -- visuals
       visuals -- inputs
-      engine -- rand_bot_model
-      engine -- tunnelvision_bot_model
       engine -- minmax_bot_model
+      engine -- tunnelvision_bot_model
+      engine -- rand_bot_model
       minmax_bot_model -- visuals
       engine -- player
       minmax_bot_model -- false_engine
