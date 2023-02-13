@@ -9,13 +9,15 @@ kolmas testi, joka testaa sotilaiden liikkeitä
 ## Minmax
 Minmaxiin perustuvan shakki ai:n tehokkuutta on testattu satunnaisilla pelitilanteilla, ja eri syvyyksillä stress_tests.py tiedoston avulla. Koodissa luodaan kuvitteellinen tilanne, ja minmax bottia pyydetään keksimään annettuun pelitilanteeseen paras mahdollinen liike eri syvyyksillä. testitulokset perustuvat 10 syklin keskiarvoihin syvyyksillä 1-5:
 
-![image](https://user-images.githubusercontent.com/117186747/218520720-74859344-501c-4829-8f17-2a0ea74c5416.png)
+![image](https://user-images.githubusercontent.com/117186747/218524498-08f4c503-dd9b-4abf-bcbf-593807fbf3cb.png)
 
 ### Taulukko
 kymmenen testauskerran keskiarvot järjestettynä laskenta tavan mukaan:
 - tapa 1: pelilaudasta on täytetty noin 1/4 satunnaisilla nappuloilla
 - tapa 2: pelilaudasta on täytetty noin 1/8 satunnaisilla nappuloilla
 - tapa 3: laskenta on suoritettu perustuen bottia vastaan pelattujen botin käyttämien vuorojen ajan keskiarvo
+
+
 | laskenta syvyys | laskenta tapa 1 | laskenta tapa 2 | laskenta tapa 3 |
 |---|---|---|---|
 | 1 | 0.0032   | 0.0100   | 0.004    |
