@@ -4,7 +4,12 @@ Yksi laajempi testi, jossa testataan kuninkaan uhkaamista, ja siihen liittyvien 
 toinen testi, joka testaa kaikkien muiden, paitsi kuninkaan ja sotilaan liikkeitä
 kolmas testi, joka testaa sotilaiden liikkeitä
 
-![image](https://user-images.githubusercontent.com/117186747/216830037-0d4c6429-4655-4d57-9886-7a631c9ae096.png)
+Minmax bot modelia on testattu sekä laajemmilla oikeellisuus testeillä, joissa pyritään selvittämään laskeeko minmax oikein tilanteissa, joiss on saatavilla shakkimatti x määrän siirtoja jälkeen. viimeisimmässä syvyyden 5 testissä on mukana kuningattaren uhraus.
+
+Minmaxia on myös testattu yksinkertaisilla unittesteillä, jotka testaavat yksittäisten funktioiden toimintaa.
+
+![image](https://user-images.githubusercontent.com/117186747/219961872-72ccd88a-3e40-4440-9484-499110ac1269.png)
+
 
 ## Minmax
 Minmaxiin perustuvan shakki ai:n tehokkuutta on testattu satunnaisilla pelitilanteilla, ja eri syvyyksillä stress_tests.py tiedoston avulla. Koodissa luodaan kuvitteellinen tilanne, ja minmax bottia pyydetään keksimään annettuun pelitilanteeseen paras mahdollinen liike eri syvyyksillä. testitulokset perustuvat 10 syklin keskiarvoihin syvyyksillä 1-5:
