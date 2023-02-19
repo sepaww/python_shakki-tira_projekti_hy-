@@ -1,4 +1,4 @@
 ## 13.2-19.2
 - maanantaina parannettu min maxia. Nyt saavutetaan laskusyvyys 5 siedettävässä ajassa (pahimmillaan noin 30+ sekuntia). Fiksattu muutama bugi enginestä, kuten tilanne, jossa peli laski sotilaan voivan suojata vieresen kolumnin shakkia sotilaan syömis liikkeellä tyhjään ruutuun (laiton liike). Lisätty stress tests, jossa testataan muutamalla satunnaisella testillä koodin käyttämää aikaa siirtoihin riippuen syvyydestä ja shakkinappuloiden määrästä.
 - lauantaina pieni koodaus tuokio, jossa lisätty correctness_test testaamaan minmaxin oikeellisuutta 3 eri syvyyksillä olevalla shakkmatti tilanteella. ensimmäinen testi yksinkertaisesti tarkistaa, että minmax löytää parhaan liikkeen ensimmäisellä siirrolla. toinen testi on 1 siirron päässä oleva shakkimatti ja kolmas testi on kahden siirron päässä oleva shakkimatti, jossa täytyy uhrata kuningatar.
-- sunnuntaina vertaisarviointi ja uudistuksien lisääminen gittiin
+- sunnuntaina vertaisarviointi ja uudistuksien lisääminen gittiin. Lisäksi unittestit minmax modeliin, joissa testaan erillisten funktioiden toimivuutta.
