@@ -53,7 +53,8 @@ false_engine.py on suurimmilta osiltaan täysi kopio engine.py:stä, mistä on p
 ## Puutteet
 - Minmax botti ei huomioi tiettyjä shakin erikoissiirtoja. Esimerkiksi tornittaminen tai sotilaan muuttuminen kuningattareksi eivät kuulu sen tiedostamiin liikkeisiin.
 - Alpha-Beta karsinnan ansiosta laskenta syvyyttä on voitu nostaa viiteen. Se kuitenkin saattaa aiheuttaa kriittisiä mokia. Esimerkiksi tilanteessa, jossa vihollisen paras liike on välttää sotilaan syöminen omalla sotilaallaan jää huomioimatta, sillä botti arvioi sotilaan syömisen olevan paras mahdollinen siirto. Tästä syystä syömisen välttämistä seuraavan tilanteen paremmuutta ei ikinä tulla huomioimaan, koska sitä pidetään turhana laskentana.
-- Koodin hierarkisuuden takia teidosto false_engine on hieman epäselvä.
+- Koodin hierarkisuuden takia tiedosto false_engine on hieman epäselvä.
+- Tilanteissa, joissa ei laskentasyvyyden riittämättömyyden takia löydetä yhtään hyviä siirtoja, tai kaikki siirrot ovat yhtä hyviä, botti voi tehdä älyttömiltä tuntuvia päätöksiä, esim siirtää yhden verran lähettiä reunaan järkevän keskustaa valloittavan siirron sijaan.
 
 ## Lähteet
 - kurssimateriaali, erityisesti pdf minmaxista
