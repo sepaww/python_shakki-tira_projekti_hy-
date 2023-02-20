@@ -26,14 +26,16 @@ class TestGameEngine(unittest.TestCase):
             [4,3,2,5,6,2,3,4]
         ]
     def test_starting_matrix(self):
-        
+        """testing if the starting matrix is initiated in the correct way
+        """
         for i in range(8):
             print(self.game_engine.game_matrix[i])
             for j in range(8):
                 self.assertEqual(self.game_engine.game_matrix[i][j].id, self.starting_matrix_ids[i][j])
                 self.assertEqual(self.game_engine.game_matrix[i][j].team, self.starting_matrix_teams[i][j])
     def test_king_chec(self):
-        #moves the king and enemy queen to the center of the board and checks if the threat to king is recognize and its moves are calculated correctly
+        """moves the king and enemy queen to the center of the board and checks if the threat to king is recognize and its moves are calculated correctly
+        """
         self.game_engine
         self.assertEqual(self.game_engine.starter, 0)
         self.game_engine.current_move=(self.game_engine.game_matrix[7][4], 7, 4)
@@ -59,7 +61,8 @@ class TestGameEngine(unittest.TestCase):
         
 
     def test_pawn_moves(self):
-        #tests all possible pawn moves
+        """tests all possible pawn moves
+        """
         moves=self.game_engine.find_moves(self.game_engine.game_matrix[1][0], 1, 0)
         self.assertEqual(moves, [(2,0), (3,0)])
         moves=self.game_engine.find_moves(self.game_engine.game_matrix[6][0], 6, 0)
@@ -94,32 +97,3 @@ class TestGameEngine(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-    
-
-from ui.visuals import Renderer
-"""
-class TestRenderer(unittest.TestCase):
-    def setUp(self):
-        
-        self.renderer = Renderer()
-
-    def test_bg_col_picker(self):
-        col = self.renderer.bg_col_picker(0, 0)
-        self.assertEqual(col, self.renderer.light_bg)
-
-        col = self.renderer.bg_col_picker(0, 1)
-        self.assertEqual(col, self.renderer.dark_bg)
-
-        col = self.renderer.bg_col_picker(1, 0)
-        self.assertEqual(col, self.renderer.dark_bg)
-
-    def test_piece_draw(self):
-        # Add piece to matrix and check if piece is drawn correctly
-        # (Test requires manual inspection of the display window)
-        pass
-
-    def test_reset_tile(self):
-        # Add piece to matrix, reset the tile, and check if it's removed
-        # (Test requires manual inspection of the display window)
-        pass
-"""
