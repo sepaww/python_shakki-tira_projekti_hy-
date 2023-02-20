@@ -4,7 +4,11 @@ Yksi laajempi testi, jossa testataan kuninkaan uhkaamista, ja siihen liittyvien 
 toinen testi, joka testaa kaikkien muiden, paitsi kuninkaan ja sotilaan liikkeitä
 kolmas testi, joka testaa sotilaiden liikkeitä
 
+Shakkia pyörittävä engine.py tarkastaa myös pelaajan mahdolliset liikkeet, ja niissä ei ole vielä manuaalisen pelaamisen aikana ilmennyt laittomuuksia, paitsi tilanne jossa voi syödä vihollisen kuninkaan tilanteessa, jossa vastustaja on tehnyt laittoman liikkeen (esim rand_bot_model). 
+
 Minmax bot modelia on testattu sekä laajemmilla oikeellisuus testeillä, joissa pyritään selvittämään laskeeko minmax oikein tilanteissa, joiss on saatavilla shakkimatti x määrän siirtoja jälkeen. viimeisimmässä syvyyden 5 testissä on mukana kuningattaren uhraus.
+
+HUOM! testeissä menee tovi edellä mainitun syvyys laskun takia. Ethän sulje avautuvaa ikkunaa. se sulkeutuu itsestään testien loputtua.
 
 Minmaxia on myös testattu yksinkertaisilla unittesteillä, jotka testaavat yksittäisten funktioiden toimintaa.
 
