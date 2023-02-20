@@ -1,6 +1,9 @@
 from false_engine import FalseEngine as FE
 import random as r
 class TunnelVision_bot():
+    """A bot model that tries to make the best moves with calculating the moves result based on what it threatens or eats or if it is centered
+    plays poorly but better than rand_bot. Not recommended to use. probably does illegal moves too.
+    """
     def __init__(self, team, matrix, crit_list, piece_list, last_move, renderer):
         self.game_matrix=matrix
         self.team=team
