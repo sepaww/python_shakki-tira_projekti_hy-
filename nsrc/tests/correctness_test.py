@@ -5,6 +5,10 @@ import unittest
 from engine import Tile, Queen, Knight, Bishop, Pawn, King, Rook
 
 class TestMinMaxCorrectness(unittest.TestCase):
+    """A couple of test that seek to find out if the minmax bot model calculates moves correctly
+    the test are done by setting up a situation where checkmate is x moves away
+    NOTE that the last test may take a while to calculate as it is depth 5 with a semi full board
+    """
     def setUp(self):
         self.engine=GE(("bot", 2), ("bot", 2), False, 0)
         self.type_list=[0, Pawn(), Bishop(), Knight(), Rook(), Queen(), King()]
