@@ -15,4 +15,5 @@
 - peliä voi pelata hiirellä graafisen käyttöliittymän ansiosta.
 - painamalla nappulaa hiirellä saa näkyviin sen mahdolliset liikkeet. painamalla mahdollisen liikkeen ruutua saa nappulan liikkumaan ruutuun.
 - r näppäimellä voi palauttaa pelin lähtotilanteeseen
+- u näppäimellä voi perua viimeisimmät 2 siirtoa kerrallaan
 - peli ilmoittaa command riville pelin tilanteen, esim. onko tullut shakki tai shakkimatti
