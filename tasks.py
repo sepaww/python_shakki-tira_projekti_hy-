@@ -12,7 +12,7 @@ def test(ctx):
 @task
 def coverage_report(ctx):
     ctx.run("coverage report -m", pty=False)
-    #ctx.run("coverage html", pty=False)
+    ctx.run("coverage html", pty=False)
     
 @task
 def lint(ctx):
