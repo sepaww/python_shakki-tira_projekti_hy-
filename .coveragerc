@@ -1,3 +1,3 @@
 [run]
 source = nsrc
-omit = nsrc/ui/**,nsrc/**/__init__.py,nsrc/tests/**
+omit = nsrc/ui/**,nsrc/**/__init__.py,nsrc/tests/**,nsrc/stress_tests.py,nsrc/tunnelvision_bot_model.py
