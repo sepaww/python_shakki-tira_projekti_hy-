@@ -168,6 +168,7 @@ class Game_Engine():
         self.eat_count=0
         for value in self.last_move:
             value=0
+        self.move_history=[]
         self.init_game_matrix()
         self.init_king_track()
         self.crit_reset()
