@@ -376,12 +376,23 @@ class Game_Engine():
             for _ in range(2): 
                 temp_list=self.move_history.pop()
                 for last_move in temp_list:
+                    
                     self.game_matrix[last_move[0]][last_move[1]]=last_move[2]
-                    last_move[2].moved=last_move[3]
+                    self.game_matrix[last_move[0]][last_move[1]].moved=last_move[3]
+                    self.game_matrix[last_move[0]][last_move[1]].i=last_move[0]
+                    self.game_matrix[last_move[0]][last_move[1]].j=last_move[1]
+                    
                     self.game_matrix[last_move[4]][last_move[5]]=last_move[6]
-                    last_move[6].moved=last_move[7]
+                    self.game_matrix[last_move[4]][last_move[5]].moved=last_move[7]
+                    self.game_matrix[last_move[4]][last_move[5]].i=last_move[4]
+                    self.game_matrix[last_move[4]][last_move[5]].j=last_move[5]
+                    
                     if last_move[2].id==6:
                         self.update_king_track(last_move[2], last_move[0], last_move[1])
+                    if last_move[6].id==6:
+                        self.update_king_track(last_move[6], last_move[4], last_move[5])
+                    self.king_check()
+                    
             print("undo")
             self.Renderer.whole_update_screen()
         else:
