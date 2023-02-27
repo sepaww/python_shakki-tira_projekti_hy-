@@ -1,0 +1,3 @@
+[run]
+source = nsrc
+omit = nsrc/ui/**,nsrc/**/__init__.py,nsrc/tests/**
