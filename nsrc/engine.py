@@ -381,7 +381,8 @@ class Game_Engine():
                     self.game_matrix[last_move[0]][last_move[1]].moved=last_move[3]
                     self.game_matrix[last_move[0]][last_move[1]].i=last_move[0]
                     self.game_matrix[last_move[0]][last_move[1]].j=last_move[1]
-                    
+                    if last_move[6].id!=0:
+                        self.eat_count-=1
                     self.game_matrix[last_move[4]][last_move[5]]=last_move[6]
                     self.game_matrix[last_move[4]][last_move[5]].moved=last_move[7]
                     self.game_matrix[last_move[4]][last_move[5]].i=last_move[4]
