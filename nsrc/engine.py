@@ -373,6 +373,10 @@ class Game_Engine():
         uses the self.move_history and pops movehistory from it.
         """
         if len(self.move_history)>1:   
+            for move in self.current_move_list:
+                self.Renderer.reset_tile(move)
+            self.current_move=[]
+            self.current_move_list=[] 
             for _ in range(2): 
                 temp_list=self.move_history.pop()
                 for last_move in temp_list:
