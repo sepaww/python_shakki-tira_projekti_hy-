@@ -42,9 +42,9 @@ class MinMaxBot():
         
         self.minmax_init()
         
-        print(self.best_moves)
+        #print(self.best_moves)
         ret_info=heappop(self.best_moves)
-        print(ret_info)
+        #print(ret_info)
         move=(ret_info[2][0], ret_info[2][1], ret_info[3], ret_info[3].i, ret_info[3].j)
         return move
     
@@ -128,14 +128,7 @@ class MinMaxBot():
         #stop=time()
         #self.times.append(stop-start)
         #print(sum(self.times)/len(self.times))
-    """    
-    def board_copier(self, board):    
-        new_c_board=[]
-        c_board=board.copy()
-        for row in c_board:
-            new_c_board.append(row.copy())
-        return new_c_board
-    """
+
     
     def minmax(self, evil_maxxing, depth, alpha, beta, own_loss, enemy_loss):
         """minmax function that recursively finds the best move by brute
