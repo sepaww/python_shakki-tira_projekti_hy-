@@ -19,7 +19,7 @@
  [testausdokumentti](https://github.com/sepaww/tira_projekti/blob/master/dokumentaatio/testaus.md)
  [toteutusdokumentti](https://github.com/sepaww/tira_projekti/blob/master/dokumentaatio/toteutusdokumentti.md)
 ## Näin saat pelin toimimaan:
-
+kloonaa git clone -komennolla repositorio valitsemaasi git kansioon. muista siirtyä kloonatun kansion sisälle.
 1. Asennetaan riippuvuudet komennolla:
 
 ```bash
