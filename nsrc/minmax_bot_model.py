@@ -12,7 +12,7 @@ class MinMaxBot():
         self.piece_list=[]
         self.is_bot=True
         self.counter=0
-        self.depth=5
+        self.depth=4
         self.turn_count=0
         self.renderer=renderer
         self.board_size=8
