@@ -207,6 +207,8 @@ class MinMaxBot():
                         ate_bool=True
                         own_loss.append(5)
                     elif temp_move.id!=0:
+                        if temp_move.id==6:
+                            return -4048*depth
                         ate_bool=True
                         own_loss.append(temp_move.id)
                     og_spot=(piece.i, piece.j)
