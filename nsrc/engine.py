@@ -245,13 +245,13 @@ class Game_Engine():
         """
         if self.tthreats>1 and mover_tile.id!=6:
             return
-        print(move_list, "before crit check")
+        #print(move_list, "before crit check")
         if mover_tile.is_crit>-1:
             move_list=self.crit_check_handler(mover_tile, move_list, i, j)
-            print(move_list, "after crit check")
+            #print(move_list, "after crit check")
         if len(self.perm_checks)>0 and mover_tile.id!=6:
             move_list=self.viable_moves(move_list, self.perm_checks) 
-        print(move_list, "after check check", self.perm_checks)
+        #print(move_list, "after check check", self.perm_checks)
         self.current_move=[mover_tile, i, j]
         self.current_move_list=move_list
         for move in move_list:
@@ -654,7 +654,7 @@ class Game_Engine():
                 self.curr_loop=self.checkmate_loop
             elif self.tthreats==1:
                 enemy_id=self.give_enemy_id(k_tile)
-                print(self.perm_checks, "perm checks, king cords", k_tile.i, k_tile.j)
+                #print(self.perm_checks, "perm checks, king cords", k_tile.i, k_tile.j)
                 for move in self.perm_checks:
                     og_id=self.game_matrix[move[0]][move[1]].team
                     self.game_matrix[move[0]][move[1]].team=enemy_id
@@ -666,7 +666,7 @@ class Game_Engine():
                 print("checkmate")
                 self.curr_loop=self.checkmate_loop
             else:
-                print("winnable 2")
+                #print("winnable 2")
                     
         
     def checkmate_loop(self):
