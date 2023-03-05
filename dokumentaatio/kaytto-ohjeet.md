@@ -8,8 +8,8 @@
 
 ### konfigurointi
 - peliä voi pelata joko itsekseen molemmilla puolilla tai bottia vastaan. Myös kahden botin välinen peli on mahdollinen joskin saattaa jumittua johonkin tilanteeseen, jossa kumpikaan botti ei halua siirtää.
-- engine.py viimeinen rivi käynnistää sovelluksen, ja muokkaamalla sen parametreja voi vaihtaa peli muotoa koemento on muotoa: (eka pelaaja, toka pelaaja, käynnistetäänkö peli, aloittaja (0=valkoinen alhaalla, 1=valkoinen ylhäällä)
-  - pelaajat koostuvat tiedoista (onko pelaaja botti ("bot") vai pelaata (mitä vain paitsi bot), mahdollisen botin mallin id (minmax id = 2))
+- engine.py viimeinen rivi käynnistää sovelluksen, ja muokkaamalla sen parametreja voi vaihtaa peli muotoa. Komento on muotoa: (eka pelaaja, toka pelaaja, käynnistetäänkö peli, aloittaja (0=valkoinen alhaalla, 1=valkoinen ylhäällä))
+  - pelaajat koostuvat tiedoista (onko pelaaja botti ("bot") vai pelaata (mitä vain paitsi bot), mahdollisen botin mallin id (minmax id = 2)
 
 ### itse pelin pelaaminen
 - peliä voi pelata hiirellä graafisen käyttöliittymän ansiosta.
