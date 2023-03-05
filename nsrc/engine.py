@@ -377,6 +377,9 @@ class Game_Engine():
                 self.Renderer.reset_tile(move)
             self.current_move=[]
             self.current_move_list=[] 
+            self.perm_checks=[]
+            self.tthreats=self.threats=0
+            self.crit_reset()
             for _ in range(2): 
                 temp_list=self.move_history.pop()
                 for last_move in temp_list:
@@ -665,8 +668,7 @@ class Game_Engine():
                         return
                 print("checkmate")
                 self.curr_loop=self.checkmate_loop
-            else:
-                #print("winnable 2")
+
                     
         
     def checkmate_loop(self):
