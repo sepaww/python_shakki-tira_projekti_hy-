@@ -60,3 +60,4 @@ pelin koodin pelilogiikan laatua voi tarkastella komennolla
 ```bash
 poetry run invoke lint
 ```
+huom! koodia ei ole lintattu
